@@ -36,7 +36,7 @@ Before finetuning, the gradient on all the layers but the newly initialized laye
 
 The model was finetuned for a total 400 epochs resulting with a total training time of roughly 12 hours. The plots of training and validation loss can be seen Fig. 3.1 below. The model looks to have converged after only 200 epochs. In addition to this some overfitting is present due to the distance between training and validation plots. Furthermore, the IoU for each image in the training set is calculated and the distribution of IoU’s can be seen in Figure 3.31. It can be seen that the majority images in test set resulted in an IoU greater than 0.5. The Mean IoU for the test set was calculated to be 0.614 which is impressive considering that in the original FCN-8 model achieved a mean IoU of 0.622. In addition, the finetuned model had an inference time 455ms on a GPU, a little slower than the original model. 
 
-![]()
+![](https://github.com/namm2008/instance_segmentation/blob/main/example/Loss.png)
 
 *Fig 3.1 Training and Validation loss (left) distribution of IoUs (right)*
 
