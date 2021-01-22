@@ -1,6 +1,9 @@
 # instance_segmentation
 Instance Segmentation with combined model of Yolo v3 + FCN (Pytorch)
 
+yolov3.cfg (236 MB COCO Yolo v3) - requires 4 GB GPU-RAM: https://pjreddie.com/media/files/yolov3.weights
+fcn8_pascal_500.pth (512MB fcn weight, you can also train by yourself): https://drive.google.com/file/d/1AIlxg-H6KQkR8FIxMDeFoTOKM8_Z7p_s/view?usp=sharing
+
 ## Introduction:
 For many computer vision problems, simply classifying the class an object belongs to is not enough. A lot of times identifying the shape of an object and the number of times the object appears in the image is required. Many algorithms go about solving this a little differently however one thing is usually common is that where one would usually find a full-connected layer, it is replaced by some deconvolutional / upsampling layers. As a result, the output maintains the original size of the image input whilst also highlighting which pixels in the image correspond to which class. One of the state-of-the-art models within this research area is Mask-R-CNN. The model expands upon the work of Faster-R-CNN by adding a branch for predicting an object mask in parallel with the existing branch for bounding box recognition. The backbone used for the model was one of the Resnet architectures to extract features from the image to which it is then passed through a Region Proposal Network (RPN) to generate Regions Of Interest (ROI) from the feature map. A ROI-Align network is then applied warp the ROI’s into a fixed dimension. This is then fed into fully connected layers to make an object classification and bounding box prediction and into the mask classifier to generate the image mask, all in parallel. 
 
