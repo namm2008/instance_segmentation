@@ -11,6 +11,12 @@ The model proposed here consists of 4 main stages. In the first stage, the image
 
 *Fig.1 New Model Structure*
 
+## Dataset
+The dataset used was the subset of COCO dataset. COCO dataset is renowned for its well labeled data and it was used as benchmarks for many image classifications. In our investigation, we sorted out 5 categories, ‘person’, ‘chair’, ‘couch’, ‘dining table’ and ‘toilet’. The ground truth masks only include those 5 groups. We had 2 main reasons to choose these 5 categories. Those 5 classes of object appear to be observed indoor. As per our research domain, the indoor environment should be more relevant. The second reason being the time concern. Focusing on 5 categories would be enough to test the model.
+
+To build our own subset of COCO, a new json file of the same format as the COCO annotations files was created, and by using the COCO API, we parsed through the entire dataset extracting all the image and annotation information pertaining to our 5 classes and appending each into a list. As a result of this we could easily extract all the images necessary into a separate file. In addition to this since our json file was of the COCO format, we could use the COCO API to extract the masks and bounding boxes when building our dataset class for our data-loader.
+
+
 ## Implementation:
 ### Stage 1: Deploying Yolo
 In this stage, we use of Yolo v3 to detect the images and outputting the bounding boxes, confidence scores and classes number. The backbone network used in Yolo v3 is the Darknet-53. In our implementation, the Darknet was provided by source code. The network was pretrained on the COCO dataset where the pretrained weight parameters was from the original paper. 
@@ -62,3 +68,5 @@ There are some of example output showing the new model(Left) and the state of th
 ![](https://github.com/namm2008/instance_segmentation/blob/main/example/ex6.png)
 ![](https://github.com/namm2008/instance_segmentation/blob/main/example/ex7.png)
 
+## Actknowledgement
+The coding of Yolo v3 is from github repo Detectx-Yolo-V3 (https://github.com/AyushExel/Detectx-Yolo-V3)
