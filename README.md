@@ -8,6 +8,7 @@ For many computer vision problems, simply classifying the class an object belong
 The model proposed here consists of 4 main stages. In the first stage, the images are input to the Yolo Version 3 network which uses Darknet-53 as its backbone. The model outputs the object classes, confidences of the detection and bounding boxes of each object. The Yolo network was pretrained on the COCO dataset. The output bounding boxes then were extracted as separate images in stage 2. All of these bounding boxes images were input to the pretrained Fully Convolutional Network (FCN) for pixel-wise classification, to generate the mask for the object in bounding box. In the final stage, the masks were reproduced in each separate bounding box image. Finally, the masks were pasted back to the original bounding box location. 
 
 ![](https://github.com/namm2008/instance_segmentation/blob/main/example/new%20model%20structure.png)
+
 *Fig.1 New Model Structure*
 
 ## Implementation:
