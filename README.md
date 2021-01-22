@@ -22,12 +22,14 @@ As mentioned above, the model was loaded with the pretrained weights on COCO dat
 ### Stage 2: Extraction Bounding Box
 In this stage, the prediction variable was sliced to include only the bounding box coordinates and changed back to integer values in order to get the correct coordinates. The bounding box image was an array due to the slicing from the original image. Transforming to tensor was carried out which fulfil the Pytorch setting requirement. 
 ![](https://github.com/namm2008/instance_segmentation/blob/main/example/Extraction%20BB.png)
+
 *Fig.2 Exrration of Bounding Box*
 
 ### Stage 3: Training and Deploy FCN8s
 As discussed before FCN-8 had been already trained on the Pascal-VOC 2012 dataset before to produce very good results. However, in our case we are interested in using FCN-8 as a binary classifier (only generating a mask for the background and object). For this to work the last six convolutional were modified to make predictions for two classes only. As results new weights are generated using the He method of initialization. Furthermore, the Pascal-VOC 2012 data used to train the model was slightly modified to work for binary classification. Since we are no longer interested in the model’s ability in distinguishing between different classes in the image, the ground truths are modified to produce a single mask for all the classes in the image. An example of this can be seen in Fig. 3, whereby a single mask is produced for the two classes present. All images into model were resized to (224,224) to allow for the use of mini batches. Also, the pre-processing of the images followed that of the research behind FCN-8 in which the per channel mean is subtracted from the image tensor.
 
 ![](https://github.com/namm2008/instance_segmentation/blob/main/example/modification%20to%20GT.png)
+
 *Fig.3 Modification of GT*
 
 Before finetuning, the gradient on all the layers but the newly initialized layer was frozen resulting in the number of trainable parameters to be 10,886. The Cross-entropy loss function was used to evaluate the masks and Adaptive Moment Estimation (Adam) optimizer was used in the backpropagation. The learning rate was initially set to 0.001 and was set to decay a tiny bit after every epoch. The metric used to evaluate the quality of the masks produced is the Mean IoU. These were chosen since the researchers of original FCN-8 model used the same metrics to evaluate results on the Pascal-VOC 2012 dataset. 
@@ -35,6 +37,7 @@ Before finetuning, the gradient on all the layers but the newly initialized laye
 The model was finetuned for a total 400 epochs resulting with a total training time of roughly 12 hours. The plots of training and validation loss can be seen Fig. 3.1 below. The model looks to have converged after only 200 epochs. In addition to this some overfitting is present due to the distance between training and validation plots. Furthermore, the IoU for each image in the training set is calculated and the distribution of IoU’s can be seen in Figure 3.31. It can be seen that the majority images in test set resulted in an IoU greater than 0.5. The Mean IoU for the test set was calculated to be 0.614 which is impressive considering that in the original FCN-8 model achieved a mean IoU of 0.622. In addition, the finetuned model had an inference time 455ms on a GPU, a little slower than the original model. 
 
 ![]()
+
 *Fig 3.1 Training and Validation loss (left) distribution of IoUs (right)*
 
 
@@ -46,6 +49,7 @@ In the last procedure, we need to handle the mask area overlapping problem. Obje
 To solve this problem, the confidence scores of the objects in both bounding boxes would be compared. In the situation overlapping, one with higher confidence scores was used to mask the object. The overlapping area was eliminated from the one with smaller confidence scores. For example, in Fig 3.4, the confidence scores of red bounding boxes was 0.9678 and the green one was 0.8998. As the score of the red box was higher than the green one, the overlapping area belonged to the red box. 
 
 ![](https://github.com/namm2008/instance_segmentation/blob/main/example/overlapping%20bb.png)
+
 *Fig. 4 Overlapping handling*
 
 ## Example Result:
